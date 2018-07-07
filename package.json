@@ -12,10 +12,13 @@
     "@types/mocha": "^2.2.35",
     "@types/mongoose": "^4.7.2",
     "@types/restify": "^2.0.36",
+    "@types/sequelize": "^4.27.23",
     "@types/sinon": "^1.16.34",
     "@types/supertest": "^2.0.0",
     "mongoose": "^4.7.5",
-    "restify": "^4.1.1"
+    "pg": "^7.4.3",
+    "restify": "^4.1.1",
+    "sequelize": "^4.38.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

@@ -8,7 +8,7 @@ import { logger } from '../utils/logger';
 const pathToRoutes: string = path.join(config.root, '/app/routes');
 
 // create Restify server with the configured name
-const app: restify.Server = restify.createServer({ name: config.name });
+const app: restify.Server = restify.createServer({ name: 'config.name' });
 
 // parse the body of the request into req.params
 app.use(restify.bodyParser());
