@@ -1,6 +1,6 @@
 import * as restify from 'restify';
 import * as mongoose from 'mongoose';
-import { Student, IStudentDocument } from '../models/student.model';
+import { Student, IStudentDocument } from '../models/__student.model';
 import { logger } from '../../utils/logger';
 
 /**

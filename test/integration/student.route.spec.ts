@@ -2,7 +2,7 @@ import * as supertest from 'supertest';
 import { expect } from 'chai';
 import { app } from '../../server';
 import { logger } from '../../utils/logger';
-import { Student } from '../../app/models/student.model';
+import { Student } from '../../app/models/__student.model';
 
 describe('student API', () => {
 
