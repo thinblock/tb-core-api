@@ -22,6 +22,7 @@ coverage/
 # TypeScript compiled files
 **/*.js
 **/*.map
+**/*.DS_Store
 
 # Coveralls config (optional)
 .coveralls.yml

@@ -1,7 +1,20 @@
 import * as restify from 'restify';
-import * as controller from '../controllers/class.controller';
-import * as auth from '../auth';
+import ClassController from '../controllers/class.controller';
+import { IRoute, IRouteConfig, HttpMethods, AuthStrategies } from '../interfaces/utils/Route';
 
-export default (api: restify.Server) => {
-  api.put('/api/class', auth.requireAdmin, controller.update);
-};
+class ClassRoute implements IRoute {
+  public basePath = '/api/locations';
+  public controller = new ClassController();
+
+  public getServerRoutes(): IRouteConfig[] {
+    return [
+      {
+        method: HttpMethods.GET,
+        auth: AuthStrategies.JWT,
+        handler: this.controller.getAll,
+      }
+    ];
+  }
+}
+
+export default ClassRoute;
