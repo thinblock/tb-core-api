@@ -1,6 +1,6 @@
 import * as Restify from 'restify';
 
-interface Controller {
+interface IController {
   getAll?(req: Restify.Request, res: Restify.Response, next: Restify.Next): boolean;
   get?(req: Restify.Request, res: Restify.Response, next: Restify.Next): any;
   post?(req: Restify.Request, res: Restify.Response, next: Restify.Next): any;
@@ -8,4 +8,4 @@ interface Controller {
   delete?(req: Restify.Request, res: Restify.Response, next: Restify.Next): any;
 }
 
-export default Controller;
+export default IController;
