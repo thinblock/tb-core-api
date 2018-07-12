@@ -6,6 +6,7 @@ interface ConfigSettings {
   port: number;
   env: string;
   debug: boolean;
+  jwtSecret: string;
 }
 
 const env: string = process.env.NODE_ENV || 'development';
@@ -18,6 +19,7 @@ const config: ConfigSettings = {
   debug: debug,
   root: path.join(__dirname, '/..'),
   port: 8080,
+  jwtSecret: process.env.TB_JWT_SECRET || 'asdfsal;dfhasl;fhasflkshdf'
 };
 
 // settings for test environment
