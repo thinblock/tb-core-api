@@ -1,4 +1,4 @@
-import Controller from './Controller';
+import Controller from './IController';
 import * as Restify from 'restify';
 
 interface IRoute {
@@ -11,7 +11,7 @@ interface IRouteConfig {
   name?: string;
   method: string;
   auth: AuthStrategies;
-  handler(req: Restify.Request, res: Restify.Response, next: Restify.Next): Restify.Next;
+  handler(req: Restify.Request, res: Restify.Response, next: Restify.Next): Promise<Restify.Next>;
   validation?: {
     schema: Routeschema
   };
