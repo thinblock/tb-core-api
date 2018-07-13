@@ -2,18 +2,21 @@ import * as fs from 'fs';
 import * as restify from 'restify';
 import * as path from 'path';
 import * as joiMiddleware from 'restify-joi-middleware';
+import * as glob from 'glob-fs';
 import * as auth from '../app/middlewares/auth';
+import { asyncAwaitMiddleware } from '../app/middlewares/restifyAsyncAwait';
 import { IRoute, AuthStrategies, HttpMethods } from '../app/interfaces/utils/Route';
 import { config } from './env';
 import { logger } from '../utils/logger';
 
 // get path to route handlers
-const pathToRoutes: string = path.join(config.root, '/app/routes');
+const pathToRoutes: string = '**/**/*.route.ts';
 
 // create Restify server with the configured name
 const app: restify.Server = restify.createServer({ name: 'config.name' });
 
 const buildServer = async () : Promise<restify.Server> => {
+  asyncAwaitMiddleware(app);
   // parse the body of the request into req.params
   app.use(restify.bodyParser());
   // Adds JOI middleware for validating the params
@@ -37,12 +40,14 @@ const buildServer = async () : Promise<restify.Server> => {
     return next();
   });
 
-  let files: string[] = fs.readdirSync(pathToRoutes);
+  let files: string[] = glob().readdirSync(pathToRoutes);
+
   // add route handlers
-  files = files.filter((file: string) => path.extname(file) === '.js');
   for (const file of files) {
     try {
-      const ServerRoute = (await import(path.join(pathToRoutes, file))).default;
+      const ServerRoute = (
+        await import(path.join(config.root, file.replace('.ts', '.js')))
+      ).default;
       const servRoute: IRoute = new ServerRoute();
       const basePath = servRoute.basePath;
       const routes = servRoute.getServerRoutes();
@@ -56,7 +61,7 @@ const buildServer = async () : Promise<restify.Server> => {
         const argsArr = [];
         const options = {
           path: basePath,
-          validate: route.validation
+          validation: route.validation
         };
         argsArr.push(options);
 

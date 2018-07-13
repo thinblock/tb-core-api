@@ -4,7 +4,7 @@ import { UnauthorizedError } from 'restify-errors';
 import IJWTToken from '../interfaces/utils/JWT';
 import { config } from '../../config/env';
 
-const jwtAuth = (req: restify.Request, res: restify.Response, next: restify.Next) => {
+const jwtAuth = (req: any, res: restify.Response, next: restify.Next) => {
   // not yet defined
   const token: string = <string>(req.headers.authorization || req.headers.Authorization);
   if (!token) {
