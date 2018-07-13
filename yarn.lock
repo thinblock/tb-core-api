@@ -75,6 +75,12 @@
     "@types/mongodb" "*"
     "@types/node" "*"
 
+"@types/node-uuid@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@types/node-uuid/-/node-uuid-0.0.28.tgz#41655b5ce63b2f3374c4e826b4dd21e729058e3d"
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "10.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.2.tgz#f19f05314d5421fe37e74153254201a7bf00a707"
@@ -1134,6 +1140,10 @@ has-unicode@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9"
 
+hat@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/hat/-/hat-0.0.3.tgz#bb014a9e64b3788aed8005917413d4ff3d502d8a"
+
 hawk@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
@@ -1936,6 +1946,10 @@ node-pre-gyp@0.10.2:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+node-uuid@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.8.tgz#b040eb0923968afabf8d32fb1f17f1167fdab907"
 
 noncharacters@^1.1.0:
   version "1.1.0"

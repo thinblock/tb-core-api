@@ -9,6 +9,7 @@ interface IRoute {
 
 interface IRouteConfig {
   name?: string;
+  param?: string;
   method: string;
   auth: AuthStrategies;
   handler(req: Restify.Request, res: Restify.Response, next: Restify.Next): Promise<Restify.Next>;

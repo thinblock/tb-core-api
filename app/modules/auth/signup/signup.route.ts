@@ -3,7 +3,7 @@ import SignupController from './signup.controller';
 import * as Joi from 'joi';
 import { IRoute, IRouteConfig, HttpMethods, AuthStrategies } from '../../../interfaces/utils/Route';
 
-class LoginRoute implements IRoute {
+class SignupRoute implements IRoute {
   public basePath = '/api/auth/signup';
   public controller = new SignupController();
 
@@ -27,4 +27,4 @@ class LoginRoute implements IRoute {
   }
 }
 
-export default LoginRoute;
+export default SignupRoute;

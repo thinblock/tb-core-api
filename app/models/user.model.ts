@@ -1,7 +1,7 @@
 import sequelize from '../../config/sequelize';
 import * as Sequelize from 'sequelize';
 
-const User = sequelize.define('tb_auth_user', {
+const User = sequelize.define('tb_auth_users', {
   name: Sequelize.STRING(255),
   email: Sequelize.STRING(255),
   email_verified: Sequelize.BOOLEAN,

@@ -4,7 +4,7 @@ import { sign } from 'jsonwebtoken';
 import { InternalServerError } from 'restify-errors';
 import IController from '../../../interfaces/utils/IController';
 import User from '../../../models/user.model';
-import IUser from '../../../interfaces/models/IUser';
+import { IUser } from '../../../interfaces/models';
 import { logger } from '../../../../utils/logger';
 import { config } from '../../../../config/env';
 

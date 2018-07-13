@@ -3,7 +3,7 @@ import { hash } from 'bcrypt';
 import { InternalServerError } from 'restify-errors';
 import IController from '../../../interfaces/utils/IController';
 import User from '../../../models/user.model';
-import IUser from '../../../interfaces/models/IUser';
+import { IUser } from '../../../interfaces/models';
 import { logger } from '../../../../utils/logger';
 
 export default class SignupController implements IController {
