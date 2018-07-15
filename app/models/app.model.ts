@@ -4,7 +4,7 @@ import * as Sequelize from 'sequelize';
 const App = sequelize.define('tb_auth_apps', {
   name: Sequelize.STRING(255),
   client_id: Sequelize.STRING(255),
-  client_secret: Sequelize.BOOLEAN, // Hashed secret
+  client_secret: Sequelize.STRING(255), // Hashed secret
   scope: Sequelize.STRING(15),
   user_id: {
     type: Sequelize.INTEGER(11),

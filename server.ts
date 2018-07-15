@@ -9,6 +9,7 @@ let app: restify.Server = null;
 const start = async () => {
   app = await buildServer();
   app.listen(config.port, () => {
+    console.log('asdf');
     logger.info(`${config.name} is running at ${app.url}`);
   });
 };

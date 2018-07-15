@@ -1,7 +1,7 @@
 import * as restify from 'restify';
 import { hash } from 'bcrypt';
 import { v1, v4 } from 'node-uuid';
-import hat from 'hat';
+import * as hat from 'hat';
 import { InternalServerError } from 'restify-errors';
 import IController from '../../interfaces/utils/IController';
 import User from '../../models/user.model';
@@ -28,6 +28,7 @@ export default class AppsController implements IController {
         client_secret: secret
       });
     } catch (e) {
+      console.log(e);
       throw new InternalServerError(e);
     }
     return next();
@@ -39,11 +40,12 @@ export default class AppsController implements IController {
       const apps = (
         await App.findAll({ where: { user_id: userId } })
       ).map((app: IApp) => {
-        const { client_secret, user_id, ...rest } = app;
-        return { ...rest };
+        const { client_id, created_at, name } = app;
+        return { name, created_at, client_id };
       });
       return res.send(apps);
     } catch (e) {
+      console.log(e);
       throw new InternalServerError(e);
     }
     return next();

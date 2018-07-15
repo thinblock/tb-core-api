@@ -8,8 +8,9 @@ import { IUser } from '../../../interfaces/models';
 import { logger } from '../../../../utils/logger';
 import { config } from '../../../../config/env';
 
-export default class SignupController implements IController {
+export default class LoginController implements IController {
   public async post(req: restify.Request, res: restify.Response, next: restify.Next) {
+    console.log('got it');
     try {
       const { email, password } = req.body;
       const user = <IUser> await User.findOne({ where: <IUser>{ email } });

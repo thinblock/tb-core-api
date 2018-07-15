@@ -7,6 +7,7 @@ import { config } from '../../config/env';
 const jwtAuth = (req: any, res: restify.Response, next: restify.Next) => {
   // not yet defined
   const token: string = <string>(req.headers.authorization || req.headers.Authorization);
+
   if (!token) {
     return res.send(new UnauthorizedError({
       message: 'No Access Token was specified in the Request Headers'
@@ -22,6 +23,7 @@ const jwtAuth = (req: any, res: restify.Response, next: restify.Next) => {
       }));
     }
   } catch (e) {
+    console.log(e);
     return res.send(new UnauthorizedError({
       message: 'Provided Access Token was invalid or expired'
     }));
