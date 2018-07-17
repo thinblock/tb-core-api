@@ -1,6 +1,5 @@
 import sequelize from '../../config/sequelize';
 import * as Sequelize from 'sequelize';
-import Token from './token.model';
 
 const App = sequelize.define('tb_auth_apps', {
   name: Sequelize.STRING(255),

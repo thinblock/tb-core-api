@@ -8,6 +8,7 @@ interface ConfigSettings {
   debug: boolean;
   jwtSecret: string;
   oAuthSecret: string;
+  ethNode: string;
 }
 
 const env: string = process.env.NODE_ENV || 'development';
@@ -22,6 +23,7 @@ const config: ConfigSettings = {
   port: 8080,
   jwtSecret: process.env.TB_JWT_SECRET || 'asdfsal;dfhasl;fhasflkshdf',
   oAuthSecret: process.env.TB_OAUTH_SECRET || 'asdfasfshdfklsahfsl',
+  ethNode: process.env.TB_ETH_NODE
 };
 
 // settings for test environment

@@ -19,6 +19,16 @@ export interface IToken {
   updated_at?: Date;
 }
 
+export interface IAccount {
+  id?: number;
+  address: string;
+  key: string;
+  client_id: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+
 export interface IUser {
   id: number;
   name: string;

@@ -24,7 +24,10 @@
     "@types/simple-oauth2": "^1.1.2",
     "@types/sinon": "^1.16.34",
     "@types/supertest": "^2.0.0",
+    "@types/underscore": "^1.8.8",
+    "@types/web3": "^1.0.0",
     "bcrypt": "^3.0.0",
+    "bignumber.js": "^7.2.1",
     "glob-fs": "^0.1.7",
     "hat": "^0.0.3",
     "joi": "^13.4.0",
@@ -37,7 +40,8 @@
     "restify-errors": "^6.1.1",
     "restify-joi-middleware": "^5.0.0",
     "restify-logger": "^2.0.1",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
     "chai": "^3.5.0",
