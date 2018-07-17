@@ -8,6 +8,7 @@ import { asyncAwaitMiddleware } from '../app/middlewares/restifyAsyncAwait';
 import { IRoute, AuthStrategies, HttpMethods } from '../app/interfaces/utils/Route';
 import { config } from './env';
 import { logger } from '../utils/logger';
+import requestsLogger from '../utils/requestsLogger';
 
 // get path to route handlers
 const pathToRoutes: string = '**/**/*.route.ts';
@@ -19,6 +20,7 @@ const buildServer = async () : Promise<restify.Server> => {
   asyncAwaitMiddleware(app);
   // parse the body of the request into req.params
   app.use(restify.bodyParser());
+  app.use(restify.queryParser());
   // Adds JOI middleware for validating the params
   app.use(joiMiddleware());
 
@@ -39,6 +41,8 @@ const buildServer = async () : Promise<restify.Server> => {
 
     return next();
   });
+
+  app.use(requestsLogger());
 
   let files: string[] = glob().readdirSync(pathToRoutes);
 
@@ -68,6 +72,9 @@ const buildServer = async () : Promise<restify.Server> => {
         switch (route.auth) {
         case AuthStrategies.JWT:
           argsArr.push(auth.jwtAuth);
+          break;
+        case AuthStrategies.OAUTH:
+          argsArr.push(auth.oAuth);
           break;
         }
 

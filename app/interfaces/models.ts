@@ -10,6 +10,15 @@ export interface IApp {
   updated_at?: Date;
 }
 
+export interface IToken {
+  id?: number;
+  client_id: number;
+  token_id: string;
+  refresh_token: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
 export interface IUser {
   id: number;
   name: string;

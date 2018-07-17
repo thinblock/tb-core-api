@@ -7,6 +7,7 @@ interface ConfigSettings {
   env: string;
   debug: boolean;
   jwtSecret: string;
+  oAuthSecret: string;
 }
 
 const env: string = process.env.NODE_ENV || 'development';
@@ -19,7 +20,8 @@ const config: ConfigSettings = {
   debug: debug,
   root: path.join(__dirname, '/..'),
   port: 8080,
-  jwtSecret: process.env.TB_JWT_SECRET || 'asdfsal;dfhasl;fhasflkshdf'
+  jwtSecret: process.env.TB_JWT_SECRET || 'asdfsal;dfhasl;fhasflkshdf',
+  oAuthSecret: process.env.TB_OAUTH_SECRET || 'asdfasfshdfklsahfsl',
 };
 
 // settings for test environment

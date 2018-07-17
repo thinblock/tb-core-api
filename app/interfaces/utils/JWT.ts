@@ -1,7 +1,10 @@
 import * as Restify from 'restify';
 
-interface IJWTToken {
+export interface IJWTToken {
   id: string;
 }
 
-export default IJWTToken;
+export interface IOAuthToken {
+  token_id: string;
+  client_id: string;
+}
