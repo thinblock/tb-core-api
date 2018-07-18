@@ -4,10 +4,10 @@ import { logger } from '../utils/logger';
 
 const db = process.env.TB_CORE_API_DB;
 
-const sequelize = new Sequelize(db);
+const sequelize = <Sequelize.Sequelize> new Sequelize(db);
 
 sequelize
- .authenticate()
+.authenticate()
   .then(() => {
     logger.info('DB Connected');
     sequelize.sync();
@@ -15,6 +15,5 @@ sequelize
   .catch(err => {
     logger.error('Unable to connect to the database:', err);
   });
-
 
 export default sequelize;

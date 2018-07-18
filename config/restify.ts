@@ -42,7 +42,9 @@ const buildServer = async () : Promise<restify.Server> => {
     return next();
   });
 
-  app.use(requestsLogger());
+  if (config.env !== 'test') {
+    app.use(requestsLogger());
+  }
 
   let files: string[] = glob().readdirSync(pathToRoutes);
 
@@ -69,13 +71,16 @@ const buildServer = async () : Promise<restify.Server> => {
         };
         argsArr.push(options);
 
-        switch (route.auth) {
-        case AuthStrategies.JWT:
-          argsArr.push(auth.jwtAuth);
-          break;
-        case AuthStrategies.OAUTH:
-          argsArr.push(auth.oAuth);
-          break;
+        // For testing, all endpoints are public so we only focus on those handlers
+        if (config.env !== 'test') {
+          switch (route.auth) {
+          case AuthStrategies.JWT:
+            argsArr.push(auth.jwtAuth);
+            break;
+          case AuthStrategies.OAUTH:
+            argsArr.push(auth.oAuth);
+            break;
+          }
         }
 
         argsArr.push(route.handler);

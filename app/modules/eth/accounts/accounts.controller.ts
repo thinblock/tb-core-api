@@ -7,7 +7,7 @@ import { IAccount } from '../../../interfaces/models';
 
 export default class AppsController implements IController {
   public async post(req: any, res: restify.Response, next: restify.Next) {
-    const clientId = req.decoded.client_id;
+    const clientId = req.client_id;
     try {
       const ethAccount = web3.eth.accounts.create();
       const account = await Account.create(<IAccount> {
@@ -17,14 +17,13 @@ export default class AppsController implements IController {
       });
       return res.send(account);
     } catch (e) {
-      console.log(e);
       throw new InternalServerError(e);
     }
     return next();
   }
 
   public async getAll(req: any, res: restify.Response, next: restify.Next) {
-    const clientId: number = req.decoded.client_id;
+    const clientId: number = req.client_id;
     try {
       const accounts = (
         await Account.findAll({ where: { client_id: clientId } })
@@ -38,7 +37,6 @@ export default class AppsController implements IController {
         total_pages: 1
       });
     } catch (e) {
-      console.log(e);
       throw new InternalServerError(e);
     }
     return next();

@@ -1,4 +1,5 @@
 import sequelize from '../../config/sequelize';
+import { config } from '../../config/env';
 import * as Sequelize from 'sequelize';
 
 const Account = sequelize.define('tb_eth_accounts', {

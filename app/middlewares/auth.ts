@@ -72,7 +72,7 @@ const oAuth = async (req: any, res: restify.Response, next: restify.Next) => {
       message: 'Provided Access Token was invalid or expired'
     }));
   }
-  req.decoded = { client_id: decodedToken.client_id };
+  req.client_id = decodedToken.client_id;
   return next();
 };
 
