@@ -1,4 +1,4 @@
-const Web3 = require('web3');
+import Web3 = require('web3');
 import { config } from '../config/env';
 
 const provider = new Web3.providers.HttpProvider(config.ethNode);

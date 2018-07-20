@@ -26,6 +26,7 @@
     "@types/supertest": "^2.0.0",
     "@types/underscore": "^1.8.8",
     "@types/web3": "^1.0.0",
+    "await-to-js": "^2.0.1",
     "bcrypt": "^3.0.0",
     "bignumber.js": "^7.2.1",
     "glob-fs": "^0.1.7",
@@ -59,6 +60,7 @@
     "build": "node_modules/.bin/tsc",
     "test": "npm run build && NODE_ENV='test' node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha test/**/*.spec.js",
     "cover": "npm run test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "start": "npm run build && node server.js"
+    "start": "npm run build && node server.js",
+    "postinstall": "rm -rf ./node_modules/web3/*.ts"
   }
 }

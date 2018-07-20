@@ -9,12 +9,13 @@ export default class AppsController implements IController {
   public async post(req: any, res: restify.Response, next: restify.Next) {
     const clientId = req.client_id;
     try {
-      const ethAccount = web3.eth.accounts.create();
+      let ethAccount = web3.eth.accounts.create();
       const account = await Account.create(<IAccount> {
         client_id: clientId,
         address: ethAccount.address,
         key: ethAccount.privateKey
       });
+      ethAccount = null;
       return res.send(account);
     } catch (e) {
       throw new InternalServerError(e);
@@ -25,12 +26,22 @@ export default class AppsController implements IController {
   public async getAll(req: any, res: restify.Response, next: restify.Next) {
     const clientId: number = req.client_id;
     try {
-      const accounts = (
+      const accounts: IAccount[] = (
         await Account.findAll({ where: { client_id: clientId } })
       ).map((app: IAccount) => {
-        const { client_id, address, id, created_at } = app;
-        return { address, id, client_id, created_at };
+        const { client_id, address, id, created_at, key } = app;
+        return { address, id, client_id, created_at, key };
       });
+
+      for (let account of accounts) {
+        try {
+          Object.assign(account, {
+            balance: web3.utils.fromWei((await web3.eth.getBalance(account.address)), 'ether')
+          });
+        } catch (e) {
+          Object.assign(account, { balance: null });
+        }
+      }
       return res.send({
         result: accounts,
         total: accounts.length,
