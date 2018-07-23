@@ -19,7 +19,7 @@ const app: restify.Server = restify.createServer({ name: 'config.name' });
 const buildServer = async () : Promise<restify.Server> => {
   asyncAwaitMiddleware(app);
   // parse the body of the request into req.params
-  app.use(restify.bodyParser());
+  app.use(restify.bodyParser({ mapParams: false }));
   app.use(restify.queryParser());
   // Adds JOI middleware for validating the params
   app.use(joiMiddleware());

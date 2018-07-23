@@ -15,9 +15,9 @@ class AppsRoute implements IRoute {
         handler: this.controller.get,
         validation: {
           schema: {
-            params: {
+            params: Joi.object().keys({
               account: Joi.string().length(42).required(),
-            }
+            }).required()
           }
         }
       }

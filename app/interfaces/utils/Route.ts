@@ -1,4 +1,5 @@
 import Controller from './IController';
+import {JoiObject} from 'joi';
 import * as Restify from 'restify';
 
 interface IRoute {
@@ -14,7 +15,7 @@ interface IRouteConfig {
   auth: AuthStrategies;
   handler(req: Restify.Request, res: Restify.Response, next: Restify.Next): Promise<Restify.Next>;
   validation?: {
-    schema: Routeschema
+    schema: JoiObject | Routeschema
   };
 }
 

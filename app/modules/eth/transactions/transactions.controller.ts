@@ -7,7 +7,12 @@ import { IAccount } from '../../../interfaces/models';
 
 export default class AppsController implements IController {
   public async post(req: any, res: restify.Response, next: restify.Next) {
+    const fromAddress = req.params.account;
     const { private_key, to: receiver, value, gas } = req.body;
+
+    if (!web3.utils.isAddress(fromAddress)) {
+      return res.send(new BadRequestError('Param "account" must be a valid Eth address'));
+    }
 
     if (!web3.utils.isAddress(receiver)) {
       return res.send(new BadRequestError('Key "to" must be a valid Eth address'));
@@ -23,11 +28,11 @@ export default class AppsController implements IController {
       const tx = <any> await web3.eth.accounts.signTransaction({
         to: receiver, value: priceInWei, gasPrice: gas, gas: 4712394
       }, private_key);
+
       const [err, txRes] = await to(web3
         .eth
         .sendSignedTransaction(<string> tx.rawTransaction)
         .once('transactionHash', (hash: string) => {
-          console.log(hash, 'asdfsafd');
           return res.send({
             success: true,
             message: 'Transaction was successfull!',
@@ -37,11 +42,9 @@ export default class AppsController implements IController {
       );
 
       if (err) {
-        console.log('error here', err, txRes);
         return res.send(new BadRequestError(err.message));
       }
     } catch (e) {
-      console.log('asfasfds', e);
       return res.send(new InternalServerError(e));
     }
     return next();

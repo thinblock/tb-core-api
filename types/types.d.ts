@@ -4,3 +4,4 @@ declare module 'restify-await-promise';
 declare module 'hat';
 declare module 'restify-logger';
 declare module 'await-to-js';
+declare module 'promievent';

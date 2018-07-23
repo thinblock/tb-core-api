@@ -4,7 +4,7 @@ import * as Joi from 'joi';
 import { IRoute, IRouteConfig, HttpMethods, AuthStrategies } from '../../../interfaces/utils/Route';
 
 class AppsRoute implements IRoute {
-  public basePath = '/api/eth/accounts/transactions';
+  public basePath = '/api/eth/accounts/:account/transactions';
   public controller = new TransactionsController();
 
   public getServerRoutes(): IRouteConfig[] {
@@ -20,7 +20,10 @@ class AppsRoute implements IRoute {
               value: Joi.string().required(),
               gas: Joi.string().required(),
               private_key: Joi.string().length(66)
-            })
+            }).required(),
+            params: {
+              account: Joi.string().length(42).required(),
+            }
           }
         }
       }
