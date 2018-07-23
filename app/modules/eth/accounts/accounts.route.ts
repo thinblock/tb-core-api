@@ -13,6 +13,13 @@ class AppsRoute implements IRoute {
         method: HttpMethods.GET,
         auth: AuthStrategies.OAUTH,
         handler: this.controller.getAll,
+        validation: {
+          schema: {
+            query: {
+              include_balance: Joi.bool().default(false)
+            }
+          }
+        },
       },
       {
         method: HttpMethods.POST,
@@ -24,7 +31,7 @@ class AppsRoute implements IRoute {
               key_action: Joi.string().valid(['return_private_key']).required()
             }
           }
-        }
+        },
       }
     ];
   }

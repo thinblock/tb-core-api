@@ -25,6 +25,7 @@ export default class AppsController implements IController {
 
   public async getAll(req: any, res: restify.Response, next: restify.Next) {
     const clientId: number = req.client_id;
+    const includeBalance: boolean = req.query.include_balance;
     try {
       const accounts: IAccount[] = (
         await Account.findAll({ where: { client_id: clientId } })
@@ -33,15 +34,18 @@ export default class AppsController implements IController {
         return { address, id, client_id, created_at, key };
       });
 
-      for (let account of accounts) {
-        try {
-          Object.assign(account, {
-            balance: web3.utils.fromWei((await web3.eth.getBalance(account.address)), 'ether')
-          });
-        } catch (e) {
-          Object.assign(account, { balance: null });
+      if (includeBalance) {
+        for (let account of accounts) {
+          try {
+            Object.assign(account, {
+              balance: web3.utils.fromWei((await web3.eth.getBalance(account.address)), 'ether')
+            });
+          } catch (e) {
+            Object.assign(account, { balance: null });
+          }
         }
       }
+
       return res.send({
         result: accounts,
         total: accounts.length,
