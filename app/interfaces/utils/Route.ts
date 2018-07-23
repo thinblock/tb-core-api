@@ -1,5 +1,5 @@
 import Controller from './IController';
-import {JoiObject} from 'joi';
+import { JoiObject } from 'joi';
 import * as Restify from 'restify';
 
 interface IRoute {

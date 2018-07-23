@@ -52,12 +52,12 @@
     "mocha": "^3.2.0",
     "sinon": "^6.1.3",
     "supertest": "^2.0.0",
-    "tslint": "^4.2.0",
-    "tslint-eslint-rules": "^3.2.3",
+    "tslint": "^5.11.0",
+    "tslint-eslint-rules": "^5.3.1",
     "typescript": "^2.1.4"
   },
   "scripts": {
-    "lint": "tslint --project .",
+    "lint": "tslint -e \"node_modules/**/*.ts\" --project .",
     "build": "node_modules/.bin/tsc",
     "test": "npm run build && NODE_ENV='test' node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha app/**/*.spec.js",
     "cover": "npm run test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",

@@ -16,7 +16,7 @@ const pathToRoutes: string = '**/**/*.route.ts';
 // create Restify server with the configured name
 const app: restify.Server = restify.createServer({ name: 'config.name' });
 
-const buildServer = async () : Promise<restify.Server> => {
+const buildServer = async (): Promise<restify.Server> => {
   asyncAwaitMiddleware(app);
   // parse the body of the request into req.params
   app.use(restify.bodyParser({ mapParams: false }));
