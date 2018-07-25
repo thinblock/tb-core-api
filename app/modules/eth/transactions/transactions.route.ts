@@ -10,6 +10,20 @@ class AppsRoute implements IRoute {
   public getServerRoutes(): IRouteConfig[] {
     return [
       {
+        method: HttpMethods.GET,
+        auth: AuthStrategies.OAUTH,
+        handler: this.controller.get,
+        param: 'transaction_hash',
+        validation: {
+          schema: {
+            params: {
+              account: Joi.string().length(42).required(),
+              transaction_hash: Joi.string().length(66).required()
+            }
+          }
+        }
+      },
+      {
         method: HttpMethods.POST,
         auth: AuthStrategies.OAUTH,
         handler: this.controller.post,

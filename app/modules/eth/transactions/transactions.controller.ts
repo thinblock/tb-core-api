@@ -1,11 +1,80 @@
 import * as restify from 'restify';
-import { InternalServerError, BadRequestError } from 'restify-errors';
+import { InternalServerError, BadRequestError, NotFoundError } from 'restify-errors';
 import IController from '../../../interfaces/utils/IController';
 import to from 'await-to-js';
 import web3 from '../../../../config/web3';
+import Account from '../../../models/account.model';
 import { IAccount } from '../../../interfaces/models';
 
 export default class AppsController implements IController {
+
+  public async get(req: any, res: restify.Response, next: restify.Next) {
+    const accountId = req.params.account;
+    const clientId = req.client_id;
+    const txHash = req.params.transaction_hash;
+
+    if (!web3.utils.isHex(accountId)) {
+      return res.send(new BadRequestError('Param "transaction_hash" must be a valid Hex string'));
+    }
+
+    if (!web3.utils.isHex(txHash)) {
+      return res.send(new BadRequestError('Param "transaction_hash" must be a valid Hex string'));
+    }
+
+    try {
+      const account: IAccount | any = await Account.findOne({
+        where: <IAccount>{ client_id: clientId, address: accountId }
+      });
+
+      if (!account) {
+        return res.send(new NotFoundError('Given address was not found for these credentials'));
+      }
+
+      const tx = await web3.eth.getTransaction(txHash);
+
+      if (!tx) {
+        return res.send(new NotFoundError('Given transaction was not found!'));
+      }
+
+      const txResponse = {
+        tx_hash: tx.hash,
+        tx_index: tx.transactionIndex,
+        block: {
+          hash: tx.blockHash,
+          number: tx.blockNumber
+        },
+        sender: tx.from,
+        receiver: tx.to,
+        amount: {
+          value: web3.utils.fromWei(tx.value, 'ether'),
+          unit: 'ether',
+        },
+        gas: {
+          price: tx.gasPrice,
+          tx_specified: tx.gas,
+          total_block_usage: <any>null,
+          tx_usage: <any>null
+        },
+        status: tx.blockNumber ? 'verified' : 'pending'
+      };
+
+      // Check if the tx is verified, if verified extend the response with receipt
+      if (tx.blockNumber) {
+        const txReceipt = await web3.eth.getTransactionReceipt(txHash);
+        txResponse.gas.total_block_usage = txReceipt.cumulativeGasUsed;
+        txResponse.gas.tx_usage = txReceipt.gasUsed;
+        // False status means its reverted
+        // https://web3js.readthedocs.io/en/1.0/web3-eth.html#gettransactionreceipt
+        txResponse.status = txReceipt.status ? 'verified' : 'reverted';
+      }
+
+      return res.send(txResponse);
+    } catch (e) {
+      return res.send(new InternalServerError(e));
+    }
+    return next();
+  }
+
   public async post(req: any, res: restify.Response, next: restify.Next) {
     const fromAddress = req.params.account;
     const { private_key, to: receiver, value, gas } = req.body;
