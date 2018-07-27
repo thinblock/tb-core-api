@@ -11,7 +11,7 @@ class LoginRoute implements IRoute {
     return [
       {
         method: HttpMethods.POST,
-        auth: AuthStrategies.OAUTH,
+        auth: AuthStrategies.PUBLIC,
         handler: this.controller.post,
         validation: {
           schema: {
