@@ -26,3 +26,4 @@ coverage/
 
 # Coveralls config (optional)
 .coveralls.yml
+swagger.yml

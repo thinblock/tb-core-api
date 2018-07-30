@@ -47,7 +47,6 @@ const buildServer = async (): Promise<restify.Server> => {
   }
 
   let files: string[] = glob().readdirSync(pathToRoutes);
-
   // add route handlers
   for (const file of files) {
     try {
@@ -57,6 +56,7 @@ const buildServer = async (): Promise<restify.Server> => {
       const servRoute: IRoute = new ServerRoute();
       const basePath = servRoute.basePath;
       const routes = servRoute.getServerRoutes();
+
       if (routes.length > 5) {
         throw new Error(`
           ${file}: A Route can have maximum of 5 routes per
@@ -102,8 +102,10 @@ const buildServer = async (): Promise<restify.Server> => {
       });
     } catch (e) {
       console.log(`Failed to load ${file}`, e);
+      process.exit(1);
     }
   }
+
   return app;
 };
 

@@ -6,6 +6,7 @@ import { IRoute, IRouteConfig, HttpMethods, AuthStrategies } from '../../../inte
 class AppsRoute implements IRoute {
   public basePath = '/api/eth/accounts/:account/balance';
   public controller = new BalanceController();
+  public swaggerTag = 'Ethereum';
 
   public getServerRoutes(): IRouteConfig[] {
     return [
@@ -19,6 +20,11 @@ class AppsRoute implements IRoute {
               account: Joi.string().length(42).required(),
             }).required()
           }
+        },
+        swagger: {
+          summary: 'Get Account Balance',
+          description: 'Gets balance of given account',
+          responses: []
         }
       }
     ];

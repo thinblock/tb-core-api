@@ -1,6 +1,6 @@
 # tb-core-api
 
-[![Coverage Status](https://coveralls.io/repos/thinblock/tb-core-api/badge.svg?branch=master)](https://coveralls.io/r/thinblock/tb-core-api?branch=master)
+[![Coverage Status](https://coveralls.io/repos/thinblock/tb-core-api/badge.svg?branch=development)](https://coveralls.io/r/thinblock/tb-core-api?branch=development)
 
 ThinBlock's core API is built on restify framework. It depends on NodeJS server `v8.11.2` and tests are written with `chai` and runner is `mocha`. The database is PostgreSQL with Sequelize ORM. We use TypeScript langauge to write strongly typed code which has less chances of breaking and better intellisense support in VS Code.
 

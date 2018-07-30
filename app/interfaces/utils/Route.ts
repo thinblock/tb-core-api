@@ -5,6 +5,8 @@ import * as Restify from 'restify';
 interface IRoute {
   basePath: string;
   controller: Controller;
+  swaggerDescription?: string;
+  swaggerTag?: string;
   getServerRoutes(): IRouteConfig[];
 }
 
@@ -17,6 +19,16 @@ interface IRouteConfig {
   validation?: {
     schema: JoiObject | Routeschema
   };
+  swagger: {
+    summary: string;
+    description: string;
+    responses: ResponseSchema[];
+  };
+}
+
+interface ResponseSchema {
+  code: number;
+  data: any;
 }
 
 interface Routeschema {
@@ -42,5 +54,6 @@ export {
   HttpMethods,
   AuthStrategies,
   IRouteConfig,
-  IRoute
+  IRoute,
+  Routeschema
 };

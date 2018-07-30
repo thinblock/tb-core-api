@@ -2,10 +2,12 @@ import * as restify from 'restify';
 import SignupController from './signup.controller';
 import * as Joi from 'joi';
 import { IRoute, IRouteConfig, HttpMethods, AuthStrategies } from '../../../interfaces/utils/Route';
+import { oneLine } from 'common-tags';
 
 class SignupRoute implements IRoute {
   public basePath = '/api/auth/signup';
   public controller = new SignupController();
+  public swaggerTag = 'Authentication';
 
   public getServerRoutes(): IRouteConfig[] {
     return [
@@ -21,7 +23,14 @@ class SignupRoute implements IRoute {
               password: Joi.string().required().min(6),
             }).required(),
           }
-        }
+        },
+        swagger: {
+          summary: 'Create User',
+          description: oneLine`
+            Signs up user with name, email and password.
+          `,
+          responses: []
+        },
       }
     ];
   }
