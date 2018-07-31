@@ -39,3 +39,12 @@ export interface IUser {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface IKey {
+  id?: number;
+  client_id: string;
+  encrypted_key: string;
+  user_id: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
