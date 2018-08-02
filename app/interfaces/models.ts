@@ -48,3 +48,14 @@ export interface IKey {
   created_at?: Date;
   updated_at?: Date;
 }
+
+export interface IActivityLog {
+  id?: number;
+  client_id: string;
+  log: string;
+  data: string;
+  event_type: string;
+  user_id: string;
+  created_at?: Date;
+  updated_at?: Date;
+}

@@ -7,17 +7,22 @@ import * as auth from '../app/middlewares/auth';
 import { asyncAwaitMiddleware } from '../app/middlewares/restifyAsyncAwait';
 import { IRoute, AuthStrategies, HttpMethods } from '../app/interfaces/utils/Route';
 import { config } from './env';
-import { logger } from '../utils/logger';
+import { logger, history } from '../utils/logger';
 import requestsLogger from '../utils/requestsLogger';
+
 
 // get path to route handlers
 const pathToRoutes: string = '**/**/*.route.ts';
 
 // create Restify server with the configured name
-const app: restify.Server = restify.createServer({ name: 'config.name' });
+const app: restify.Server = restify.createServer({
+  name: 'config.name',
+  log: logger,
+});
 
 const buildServer = async (): Promise<restify.Server> => {
   asyncAwaitMiddleware(app);
+  app.pre(history());
   // parse the body of the request into req.params
   app.use(restify.bodyParser({ mapParams: false }));
   app.use(restify.queryParser());
@@ -25,7 +30,7 @@ const buildServer = async (): Promise<restify.Server> => {
   app.use(joiMiddleware());
 
   // user-defined middleware
-  app.use((req: any, res: any, next: any) => {
+  app.use((req: restify.Request, res: restify.Response, next: any) => {
     // Set permissive CORS header - this allows this server to be used only as
     // an API server in conjunction with something like webpack-dev-server.
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,10 +39,7 @@ const buildServer = async (): Promise<restify.Server> => {
     res.setHeader('Cache-Control', 'no-cache');
 
     // log the request method and url
-    logger.info(`${req.method} ${req.url}`);
-
-    // log the request body
-    logger.info(`Params: ${JSON.stringify(req.params)}`);
+    logger.info(`#${req.id()} ${req.method} ${req.url} with params: ${JSON.stringify(req.params)}`);
 
     return next();
   });

@@ -1,7 +1,7 @@
 import * as Restify from 'restify';
 
 export interface IJWTToken {
-  id: string;
+  id: number;
 }
 
 export interface IOAuthToken {

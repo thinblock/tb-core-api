@@ -5,10 +5,12 @@ import to from 'await-to-js';
 import web3 from '../../../../config/web3';
 import Account from '../../../models/account.model';
 import { IAccount } from '../../../interfaces/models';
+import { IRequest, IResponse } from '../../../interfaces/utils/IServer';
+import { ActivityLogEvents } from '../../../interfaces/enums';
 
 export default class AppsController implements IController {
 
-  public async get(req: any, res: restify.Response, next: restify.Next) {
+  public async get(req: IRequest, res: IResponse, next: restify.Next) {
     const accountId = req.params.account;
     const clientId = req.client_id;
     const txHash = req.params.transaction_hash;
@@ -70,12 +72,13 @@ export default class AppsController implements IController {
 
       return res.send(txResponse);
     } catch (e) {
+      req.log.error(e);
       return res.send(new InternalServerError(e));
     }
     return next();
   }
 
-  public async post(req: any, res: restify.Response, next: restify.Next) {
+  public async post(req: IRequest, res: IResponse, next: restify.Next) {
     const fromAddress = req.params.account;
     const { private_key, to: receiver, value, gas } = req.body;
 
@@ -102,6 +105,14 @@ export default class AppsController implements IController {
         .eth
         .sendSignedTransaction(<string> tx.rawTransaction)
         .once('transactionHash', (hash: string) => {
+
+          req.activityLog(
+            req.client_id,
+            `Transaction of ${value}ether created successfully`,
+            ActivityLogEvents.ETH_TRANSACTION_CREATED, null,
+            { hash }
+          );
+
           return res.send({
             success: true,
             message: 'Transaction was successfull!',
@@ -114,6 +125,7 @@ export default class AppsController implements IController {
         return res.send(new BadRequestError(err.message));
       }
     } catch (e) {
+      req.log.error(e);
       return res.send(new InternalServerError(e));
     }
     return next();

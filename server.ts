@@ -3,6 +3,7 @@ import { config } from './config/env';
 import { buildServer } from './config/restify';
 import { logger } from './utils/logger';
 import './config/sequelize';
+import './app/models/activity_log.model';
 
 let app: restify.Server = null;
 

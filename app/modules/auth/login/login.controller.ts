@@ -5,12 +5,11 @@ import { InternalServerError } from 'restify-errors';
 import IController from '../../../interfaces/utils/IController';
 import User from '../../../models/user.model';
 import { IUser } from '../../../interfaces/models';
-import { logger } from '../../../../utils/logger';
 import { config } from '../../../../config/env';
+import { IRequest, IResponse } from '../../../interfaces/utils/IServer';
 
 export default class LoginController implements IController {
-  public async post(req: restify.Request, res: restify.Response, next: restify.Next) {
-    console.log('got it');
+  public async post(req: IRequest, res: IResponse, next: restify.Next) {
     try {
       const { email, password } = req.body;
       const user = <IUser> await User.findOne({ where: <IUser>{ email } });
@@ -26,7 +25,8 @@ export default class LoginController implements IController {
         user: { id: user.id, auth_provider: user.auth_provider }
       });
     } catch (e) {
-      throw new InternalServerError(e);
+      req.log.error(e);
+      return res.send(new InternalServerError(e));
     }
     return next();
   }

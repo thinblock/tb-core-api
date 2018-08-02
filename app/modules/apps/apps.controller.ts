@@ -1,15 +1,15 @@
 import * as restify from 'restify';
 import { hash } from 'bcrypt';
-import { v1, v4 } from 'node-uuid';
+import { v4 } from 'node-uuid';
 import * as hat from 'hat';
 import { InternalServerError } from 'restify-errors';
 import IController from '../../interfaces/utils/IController';
-import User from '../../models/user.model';
 import App from '../../models/app.model';
-import { IUser, IApp } from '../../interfaces/models';
+import { IApp } from '../../interfaces/models';
+import { IRequest, IResponse } from '../../interfaces/utils/IServer';
 
 export default class AppsController implements IController {
-  public async post(req: any, res: restify.Response, next: restify.Next) {
+  public async post(req: IRequest, res: IResponse, next: restify.Next) {
     const userId = req.decoded.user_id;
     try {
       const { name } = req.body;
@@ -28,13 +28,13 @@ export default class AppsController implements IController {
         client_secret: secret
       });
     } catch (e) {
-      console.log(e);
+      req.log.error(e);
       throw new InternalServerError(e);
     }
     return next();
   }
 
-  public async getAll(req: any, res: restify.Response, next: restify.Next) {
+  public async getAll(req: IRequest, res: IResponse, next: restify.Next) {
     const userId: number = req.decoded.user_id;
     try {
       const apps = (
@@ -45,7 +45,7 @@ export default class AppsController implements IController {
       });
       return res.send(apps);
     } catch (e) {
-      console.log(e);
+      req.log.error(e);
       throw new InternalServerError(e);
     }
     return next();

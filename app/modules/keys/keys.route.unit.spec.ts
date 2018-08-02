@@ -5,7 +5,7 @@ import { app } from '../../../server';
 import Key from '../../../app/models/key.model';
 const expect = chai.expect;
 
-describe.only('Unit Testing', () => {
+describe('Unit Testing', () => {
   let sandbox: sinon.SinonSandbox = null;
   beforeEach((done) => {
     sandbox = sinon.createSandbox();

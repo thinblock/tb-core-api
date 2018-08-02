@@ -4,10 +4,11 @@ import IController from '../../../interfaces/utils/IController';
 import Account from '../../../models/account.model';
 import web3 from '../../../../config/web3';
 import { IAccount } from '../../../interfaces/models';
+import { IRequest, IResponse } from '../../../interfaces/utils/IServer';
 
 export default class AppsController implements IController {
-  public async get(req: any, res: restify.Response, next: restify.Next) {
-    const clientId: number = req.client_id;
+  public async get(req: IRequest, res: IResponse, next: restify.Next) {
+    const clientId: string = req.client_id;
     const accountAddress: string = req.params.account;
 
     if (!web3.utils.isAddress(accountAddress)) {
@@ -27,7 +28,8 @@ export default class AppsController implements IController {
 
       return res.send({ address: accountAddress, balance, unit: 'ether' });
     } catch (e) {
-      throw new InternalServerError(e);
+      req.log.error(e);
+      return res.send(new InternalServerError(e));
     }
     return next();
   }

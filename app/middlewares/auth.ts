@@ -4,8 +4,9 @@ import { UnauthorizedError } from 'restify-errors';
 import Token from '../models/token.model';
 import { IJWTToken, IOAuthToken } from '../interfaces/utils/JWT';
 import { config } from '../../config/env';
+import { IRequest, IResponse } from '../interfaces/utils/IServer';
 
-const jwtAuth = (req: any, res: restify.Response, next: restify.Next) => {
+const jwtAuth = (req: IRequest, res: IResponse, next: restify.Next) => {
   // not yet defined
   const token: string = <string>(req.headers.authorization || req.headers.Authorization);
 
@@ -24,16 +25,17 @@ const jwtAuth = (req: any, res: restify.Response, next: restify.Next) => {
       }));
     }
   } catch (e) {
-    console.log(e);
+    req.log.error(e);
     return res.send(new UnauthorizedError({
       message: 'Provided Access Token was invalid or expired'
     }));
   }
+
   req.decoded = { user_id: decodedToken.id };
   return next();
 };
 
-const oAuth = async (req: any, res: restify.Response, next: restify.Next) => {
+const oAuth = async (req: IRequest, res: IResponse, next: restify.Next) => {
   // not yet defined
   const tokenHeader: string = <string>(req.headers.authorization || req.headers.Authorization);
 
@@ -67,7 +69,7 @@ const oAuth = async (req: any, res: restify.Response, next: restify.Next) => {
       }));
     }
   } catch (e) {
-    console.log(e);
+    req.log.error(e);
     return res.send(new UnauthorizedError({
       message: 'Provided Access Token was invalid or expired'
     }));
