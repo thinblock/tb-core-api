@@ -40,8 +40,8 @@ export default class AppsController implements IController {
       const apps = (
         await App.findAll({ where: { user_id: userId } })
       ).map((app: IApp) => {
-        const { client_id, created_at, name } = app;
-        return { name, created_at, client_id };
+        const { id, client_id, created_at, name } = app;
+        return { id, name, created_at, client_id };
       });
       return res.send(apps);
     } catch (e) {

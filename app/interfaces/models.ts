@@ -49,6 +49,33 @@ export interface IKey {
   updated_at?: Date;
 }
 
+export interface IWallet {
+  id?: number;
+  client_id: string;
+  user_id: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface IWalletAddress {
+  id?: number;
+  chain: string;
+  address: string;
+  name: string;
+  wallet_id: number;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface IWalletUser {
+  id?: number;
+  client_id: string;
+  user_id: string;
+  wallet_id: number;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
 export interface IActivityLog {
   id?: number;
   client_id: string;
