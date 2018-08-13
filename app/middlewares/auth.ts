@@ -1,12 +1,16 @@
 import * as restify from 'restify';
 import { verify } from 'jsonwebtoken';
-import { UnauthorizedError } from 'restify-errors';
+import to from 'await-to-js';
+import { UnauthorizedError, InternalServerError } from 'restify-errors';
 import Token from '../models/token.model';
 import { IJWTToken, IOAuthToken } from '../interfaces/utils/JWT';
 import { config } from '../../config/env';
 import { IRequest, IResponse } from '../interfaces/utils/IServer';
+import User from '../models/user.model';
+import { IUser } from '../interfaces/models';
+import { UserStatuses } from '../interfaces/enums';
 
-const jwtAuth = (req: IRequest, res: IResponse, next: restify.Next) => {
+const jwtAuth = async (req: IRequest, res: IResponse, next: restify.Next) => {
   // not yet defined
   const token: string = <string>(req.headers.authorization || req.headers.Authorization);
 
@@ -22,6 +26,28 @@ const jwtAuth = (req: IRequest, res: IResponse, next: restify.Next) => {
     if (!decodedToken) {
       return res.send(new UnauthorizedError({
         message: 'Provided Access Token was invalid or expired'
+      }));
+    }
+
+    const [err, user] = <[Error, IUser]> await to(User.findOne({ where: { id: decodedToken.id } }));
+
+    if (err) {
+      req.log.error(err);
+      return res.send(new InternalServerError(err));
+    }
+
+    if (!user) {
+      return res.send(new UnauthorizedError({
+        message: `User doesn't exist in our DB`
+      }));
+    }
+
+    if (user.status === UserStatuses.SUSPENDED) {
+      return res.send(new UnauthorizedError({
+        message: `
+          This account is suspended for security reasons. Please reset your account password
+          to regain access to your account
+        `
       }));
     }
   } catch (e) {

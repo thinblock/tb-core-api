@@ -15,6 +15,18 @@ enum ActivityLogEvents {
   USER_LOGGED_IN = 'user_logged_in'
 }
 
+enum UserStatuses {
+  ACTIVE = 'active',
+  IN_ACTIVE = 'inactive',
+  SUSPENDED = 'suspended',
+}
+
+enum EmailTypes {
+  RESET_PASSWORD = 'password_reset'
+}
+
 export {
-  ActivityLogEvents
+  ActivityLogEvents,
+  UserStatuses,
+  EmailTypes
 };

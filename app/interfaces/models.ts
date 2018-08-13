@@ -1,3 +1,5 @@
+import { UserStatuses } from './enums';
+
 export interface IApp {
   id?: number;
   user_id: number;
@@ -36,8 +38,12 @@ export interface IUser {
   email_verified: boolean;
   auth_provider: string;
   password: string;
+  reset_password_token?: string;
+  reset_password_attempts?: number;
+  status?: UserStatuses;
   created_at: Date;
   updated_at: Date;
+  isMaxPasswordResetAttemptReached?(attempts?: number): boolean;
 }
 
 export interface IKey {
