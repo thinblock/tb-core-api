@@ -92,3 +92,12 @@ export interface IActivityLog {
   created_at?: Date;
   updated_at?: Date;
 }
+
+export interface IDevice {
+  id?: number;
+  client_id: string;
+  UUID: string;
+  user_id: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
