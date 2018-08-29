@@ -30,7 +30,6 @@ export interface IAccount {
   updated_at?: Date;
 }
 
-
 export interface IUser {
   id: number;
   name: string;
@@ -41,6 +40,15 @@ export interface IUser {
   reset_password_token?: string;
   reset_password_attempts?: number;
   status?: UserStatuses;
+  login_attempts: number;
+  login_attempt_time: number;
+  login_attempt_success: boolean;
+  settings: {
+    id?: number;
+    user_id: number;
+    phone: string;
+    enable_otp: boolean;
+  };
   created_at: Date;
   updated_at: Date;
   isMaxPasswordResetAttemptReached?(attempts?: number): boolean;
@@ -88,6 +96,22 @@ export interface IActivityLog {
   log: string;
   data: string;
   event_type: string;
+  user_id: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface IUserSettings {
+  id?: number;
+  user_id: number;
+  phone: string;
+  enable_otp: boolean;
+}
+
+export interface IPhoneVerification {
+  id?: number;
+  attempts: number;
+  otp: string;
   user_id: string;
   created_at?: Date;
   updated_at?: Date;

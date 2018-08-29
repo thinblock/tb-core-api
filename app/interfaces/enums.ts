@@ -19,6 +19,7 @@ enum UserStatuses {
   ACTIVE = 'active',
   IN_ACTIVE = 'inactive',
   SUSPENDED = 'suspended',
+  BLOCKED = 'blocked'
 }
 
 enum EmailTypes {

@@ -25,8 +25,15 @@ interface EmailConfig {
   password: string;
 }
 
+interface TwilioConfig {
+  sid: string;
+  token: string;
+  number: string;
+}
+
 export {
   EnvConfig,
   URLConfig,
-  EmailConfig
+  EmailConfig,
+  TwilioConfig
 };

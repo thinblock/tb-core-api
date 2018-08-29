@@ -11,9 +11,8 @@ describe('Unit Testing', () => {
     sandbox = sinon.createSandbox();
     done();
   });
-  afterEach((done) => {
+  afterEach(() => {
     sandbox.restore();
-    done();
   });
   describe('Wallet API', () => {
     describe('GET /api/wallets', () => {

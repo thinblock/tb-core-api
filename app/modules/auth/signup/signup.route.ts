@@ -20,7 +20,7 @@ class SignupRoute implements IRoute {
             body: Joi.object().keys({
               name: Joi.string().required(),
               email: Joi.string().email().required(),
-              password: Joi.string().required().min(6),
+              password: Joi.string().required().min(6)
             }).required(),
           }
         },

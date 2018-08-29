@@ -11,6 +11,7 @@
     "node": "8.11.2"
   },
   "dependencies": {
+    "@types/twilio": "0.0.9",
     "async": "^2.6.1",
     "await-to-js": "^2.0.1",
     "bcrypt": "^3.0.0",
@@ -33,6 +34,7 @@
     "restify-joi-middleware": "^5.0.0",
     "restify-logger": "^2.0.1",
     "sequelize": "^4.38.0",
+    "twilio": "^3.19.1",
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
