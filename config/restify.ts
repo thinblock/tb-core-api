@@ -6,6 +6,7 @@ import * as glob from 'glob-fs';
 import * as auth from '../app/middlewares/auth';
 import { asyncAwaitMiddleware } from '../app/middlewares/restifyAsyncAwait';
 import { IRoute, AuthStrategies, HttpMethods } from '../app/interfaces/utils/Route';
+import IMiddleware from '../app/interfaces/utils/IMiddleware';
 import { config } from './env';
 import { logger, history } from '../utils/logger';
 import requestsLogger from '../utils/requestsLogger';
@@ -83,6 +84,10 @@ const buildServer = async (): Promise<restify.Server> => {
             argsArr.push(auth.oAuth);
             break;
           }
+        }
+
+        if (route.middlewares && route.middlewares.length) {
+          argsArr.push(...route.middlewares.map((Middleware: IMiddleware) => (Middleware.init)));
         }
 
         argsArr.push(route.handler);

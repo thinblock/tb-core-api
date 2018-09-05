@@ -1,6 +1,7 @@
 import Controller from './IController';
 import { JoiObject } from 'joi';
 import * as Restify from 'restify';
+import IMiddleware from './IMiddleware';
 
 interface IRoute {
   basePath: string;
@@ -13,6 +14,7 @@ interface IRoute {
 interface IRouteConfig {
   name?: string;
   param?: string;
+  middlewares?: IMiddleware[];
   method: string;
   auth: AuthStrategies;
   handler(req: Restify.Request, res: Restify.Response, next: Restify.Next): Promise<Restify.Next>;

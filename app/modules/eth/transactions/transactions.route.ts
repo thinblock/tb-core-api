@@ -3,6 +3,7 @@ import { oneLine } from 'common-tags';
 import TransactionsController from './transactions.controller';
 import * as Joi from 'joi';
 import { IRoute, IRouteConfig, HttpMethods, AuthStrategies } from '../../../interfaces/utils/Route';
+import AuthDeviceCheckMiddleware from '../../../middlewares/device';
 
 class AppsRoute implements IRoute {
   public basePath = '/api/eth/accounts/:account/transactions';
@@ -45,6 +46,7 @@ class AppsRoute implements IRoute {
       {
         method: HttpMethods.POST,
         auth: AuthStrategies.OAUTH,
+        middlewares: [new AuthDeviceCheckMiddleware()],
         handler: this.controller.post,
         validation: {
           schema: {
@@ -52,7 +54,8 @@ class AppsRoute implements IRoute {
               to: Joi.string().length(42).required().meta({}),
               value: Joi.string().required(),
               gas: Joi.string().required(),
-              private_key: Joi.string().length(66)
+              private_key: Joi.string().length(66),
+              user_id: Joi.string().required()
             }).required(),
             params: {
               account: Joi.string().length(42).required(),

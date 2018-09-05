@@ -5,6 +5,7 @@ import { app } from '../../../../server';
 import PromiEvent from 'promievent';
 import web3 from '../../../../config/web3';
 import Account from '../../../models/account.model';
+import Device from '../../../models/device.model';
 const expect = chai.expect;
 
 describe('Unit Testing', () => {
@@ -13,7 +14,8 @@ describe('Unit Testing', () => {
     to: '0x96A467D2Da922D7d08cB77253686c9c1cFAF7239',
     gas: '15000',
     value: '0.003',
-    private_key: '0x96A467D2Da922D7d08cB77253686c9c1cFAF723908cB77253686c9c1cFAF7239'
+    private_key: '0x96A467D2Da922D7d08cB77253686c9c1cFAF723908cB77253686c9c1cFAF7239',
+    user_id: '1'
   };
 
   beforeEach((done) => {
@@ -36,6 +38,16 @@ describe('Unit Testing', () => {
             resolve('something');
           }, 25);
         });
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves();
         sandbox
           .mock(web3.eth.accounts)
           .expects('signTransaction')
@@ -66,7 +78,52 @@ describe('Unit Testing', () => {
           });
       });
 
+      it('should throw unauthorized error when creating eth transaction', (done) => {
+        const txHash = '0xHash';
+        const promiEvent = new PromiEvent((resolve: any) => {
+          setTimeout(() => {
+            promiEvent.emit('transactionHash', txHash);
+            resolve('something');
+          }, 25);
+        });
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves({});
+        supertest(app)
+          .post('/api/eth/accounts/0x96A467D2Da922D7d08cB77253686c9c1cFAF7239/transactions')
+          .send(txPayload)
+          .end((err: any, res: supertest.Response) => {
+            if (err) {
+              done(err);
+            } else {
+              expect(res.status).to.equal(401);
+              expect(res.body).to.have.deep.equals({
+                code: 'Unauthorized',
+                message: '',
+              });
+              done();
+            }
+          });
+      });
+
       it('should throw 500 if signing fails', (done) => {
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves();
         sandbox
           .mock(web3.eth.accounts)
           .expects('signTransaction')
@@ -92,6 +149,16 @@ describe('Unit Testing', () => {
             reject(new Error('error sending transaction'));
           }, 25);
         });
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves();
         sandbox
           .mock(web3.eth.accounts)
           .expects('signTransaction')
@@ -131,6 +198,16 @@ describe('Unit Testing', () => {
       });
 
       it('should throw bad request if param account is not correct eth address', (done) => {
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves();
         supertest(app)
           .post('/api/eth/accounts/0x96A467D2Da922D7dddcB77253686c9c1cFAF7239/transactions')
           .send(txPayload)
@@ -146,6 +223,16 @@ describe('Unit Testing', () => {
 
       it('should throw bad request if "to" in payload is not correct eth address', (done) => {
         const localPayload = { ...txPayload, to: '0x96A467D2Da922D7dddcB77253686c9c1cFAF7239' };
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves();
         supertest(app)
           .post('/api/eth/accounts/0x96A467D2Da922D7d08cB77253686c9c1cFAF7239/transactions')
           .send(localPayload)
@@ -164,6 +251,16 @@ describe('Unit Testing', () => {
           ...txPayload,
           private_key: '0xabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiljk'
         };
+        sandbox
+          .mock(Device)
+          .expects('findAll')
+          .withArgs({
+            where: {
+              client_id: undefined,
+              user_id: '1'
+            }
+          })
+          .resolves();
         supertest(app)
           .post('/api/eth/accounts/0x96A467D2Da922D7d08cB77253686c9c1cFAF7239/transactions')
           .send(localPayload)
